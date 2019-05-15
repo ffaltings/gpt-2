@@ -168,6 +168,9 @@ def model(hparams, X, past=None, scope='model', reuse=tf.AUTO_REUSE):
         results['present'] = tf.stack(presents, axis=1)
         h = norm(h, 'ln_f')
 
+        #return the last hidden state for transfer learning
+        results['hidden'] = h
+
         # Language model loss.  Do tokens <n predict token n?
         h_flat = tf.reshape(h, [batch*sequence, hparams.n_embd])
         logits = tf.matmul(h_flat, wte, transpose_b=True)
